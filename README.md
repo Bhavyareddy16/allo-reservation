@@ -24,6 +24,8 @@ The system uses:
 
 1. **Clone the repository and install dependencies:**
    ```bash
+   git clone https://github.com/Bhavyareddy16/allo-reservation.git
+   cd allo-reservation
    npm install
    ```
 
@@ -72,7 +74,15 @@ The frontend generates a `crypto.randomUUID()` and sends it as an `Idempotency-K
 - The API checks if a reservation with this key already exists before processing. If it does, it simply returns the existing reservation without repeating the side effect.
 - The `confirm` and `release` endpoints are also naturally idempotent.
 
+## Trade-offs and Future Improvements
+
+- **Expiry cleanup** is implemented lazily on API reads/writes. In production, I would add a Vercel Cron job or background worker to release expired reservations even during low traffic periods.
+- **Idempotency** is implemented for reservation creation using a unique `idempotencyKey`. For a more general production system, I would store full request/response payloads in a dedicated idempotency table.
+- **Scope**: The app is intentionally focused on a single-item checkout flow. A production version would support multi-item carts, authentication, payment provider webhooks, and admin inventory management.
+
 ## Demo Flow
 1. **Product Listing (`/`)**: Displays available stock. Click "Reserve" to create a reservation.
 2. **Checkout (`/checkout/:id`)**: Shows a live 10-minute countdown timer.
+   - **Confirm purchase**: Permanently decrements total units and releases the hold.
+   - **Cancel order**: Releases the reservation and returns stock to availability.
 3. Let the timer expire, then try to confirm -> you'll get a 410 Gone.
