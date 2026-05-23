@@ -1,5 +1,9 @@
 # Allo Engineering - Take-Home Exercise (Inventory Reservation System)
 
+### 🔗 Project Links
+- **Live Demo**: [https://allo-reservation-lime.vercel.app](https://allo-reservation-lime.vercel.app)
+- **Source Code**: [https://github.com/Bhavyareddy16/allo-reservation](https://github.com/Bhavyareddy16/allo-reservation)
+
 ## Overview
 
 This is a Next.js full-stack application built for the Allo Engineering take-home exercise. It implements an inventory reservation system to solve the checkout race condition where multiple users attempt to purchase the same physical unit concurrently.
